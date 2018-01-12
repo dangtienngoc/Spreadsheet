@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { connect } from 'react-redux'
+
 import set from 'lodash/set';
 import get from 'lodash/get';
 import map from 'lodash/map';
 import concat from 'lodash/concat';
 
-import types from './components';
+import types from '../components/index';
+import Modal from "../components/Modal";
 
-import './Spreadsheet.css';
-import Modal from "./components/Modal";
+import { addColumn, addRow } from "../actions";
+
+import '../Spreadsheet.css';
 
 function guid() {
   function s4() {
@@ -33,7 +37,6 @@ class Spreadsheet extends Component {
     };
     this.setValue   = this.setValue.bind(this);
     this.renderCell = this.renderCell.bind(this);
-    this.addRow     = this.addRow.bind(this);
     this.addColumn  = this.addColumn.bind(this);
     this.openModal = this.openModal.bind(this);
   }
@@ -82,15 +85,6 @@ class Spreadsheet extends Component {
       key={id}>{type === "Sum" ? this.renderSum(d, rest) : this.renderCustom(type, get(d, id), rowIndex, id)}</td>);
   }
 
-  addRow() {
-    const { data } = this.state;
-    const initData = map(data[0], v => null);
-    this.setState({
-      data: concat(data, [initData]),
-    });
-
-  }
-
   addColumn(values) {
     const { data, column } = this.state;
     const id               = guid();
@@ -109,7 +103,7 @@ class Spreadsheet extends Component {
   }
 
   render() {
-    const { data, column } = this.state;
+    const { data, column } = this.props;
     return (
       <div>
         <div className={'table'}>
@@ -124,11 +118,11 @@ class Spreadsheet extends Component {
             </tbody>
           </table>
 
-          <button className={'btn add-row'} onClick={this.addRow}>Add row</button>
+          <button className={'btn add-row'} onClick={() => this.props.addRow()}>Add row</button>
           <button className={'btn add-column'} onClick={this.openModal}>Add column</button>
         </div>
 
-        {this.state.modal && <Modal onClose={() => this.setState({ modal: false }) } addColumn={this.addColumn} column={column} /> }
+        {this.state.modal && <Modal onClose={() => this.setState({ modal: false }) } addColumn={this.props.addColumn} column={column} /> }
       </div>
     );
   }
@@ -140,4 +134,17 @@ Spreadsheet.propTypes    = {
 };
 Spreadsheet.defaultProps = {};
 
-export default Spreadsheet;
+const mapStateToProps = ( {column, data} ) => ({
+  column,
+  data
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  addRow: () => dispatch(addRow()),
+  addColumn: (values) => dispatch(addColumn(values)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Spreadsheet);

@@ -2,26 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import Spreadsheet from './Spreadsheet';
+import Spreadsheet from './containers/Spreadsheet';
 import registerServiceWorker from './registerServiceWorker';
 
-const column = [
-  { id: 'k1', type: 'Number', title: 'Number 1' },
-  { id: 'k2', type: 'Number', title: 'Number' },
-  { id: 'k3', type: 'Sum', title: 'Sum', column: 'k1', column2: 'k2' },
-  { id: 'k4', type: 'Dropdown', title: 'Dropdown' },
-];
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 
-const data = [
-  { k1: 1, k2: 1, k3: '', k4: 3 },
-  { k1: 2, k2: 2, k3: '', k4: 3 },
-  { k1: 1, k2: 1, k3: '', k4: 3 },
-  { k1: 1, k2: 1, k3: '', k4: 3 },
-];
+import reducers from './reducers';
 
-const Root = () => <App>
-  <Spreadsheet column={column} data={data} />
-</App>;
+let store = createStore(reducers);
 
-ReactDOM.render(<Root />, document.getElementById('root'));
+const Root = () => (
+  <Provider store={store}>
+    <App>
+      <Spreadsheet />
+    </App>
+  </Provider>
+);
+
+ReactDOM.render(<Root/>, document.getElementById('root'));
 registerServiceWorker();
