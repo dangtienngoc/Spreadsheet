@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux'
 
-import set from 'lodash/set';
 import get from 'lodash/get';
 
 import types from '../components/index';
