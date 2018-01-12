@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 class Sum extends Component {
   render() {
@@ -9,7 +9,7 @@ class Sum extends Component {
   }
 }
 
-Sum.propTypes    = {};
-Sum.defaultProps = {};
+// Sum.propTypes    = {};
+// Sum.defaultProps = {};
 
 export default Sum;

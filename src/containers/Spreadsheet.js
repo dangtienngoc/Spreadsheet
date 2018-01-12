@@ -5,8 +5,6 @@ import { connect } from 'react-redux'
 
 import set from 'lodash/set';
 import get from 'lodash/get';
-import map from 'lodash/map';
-import concat from 'lodash/concat';
 
 import types from '../components/index';
 import Modal from "../components/Modal";
@@ -14,17 +12,6 @@ import Modal from "../components/Modal";
 import { addColumn, addRow } from "../actions";
 
 import '../Spreadsheet.css';
-
-function guid() {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
-  }
-
-  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-    s4() + '-' + s4() + s4() + s4();
-}
 
 class Spreadsheet extends Component {
 
@@ -37,7 +24,6 @@ class Spreadsheet extends Component {
     };
     this.setValue   = this.setValue.bind(this);
     this.renderCell = this.renderCell.bind(this);
-    this.addColumn  = this.addColumn.bind(this);
     this.openModal = this.openModal.bind(this);
   }
 
@@ -63,15 +49,11 @@ class Spreadsheet extends Component {
 
   renderSum(d, rest) {
     const { column, column2 } = rest;
-
     const v = get(d, column), v2 = get(d, column2);
-
     if (!v || !v2) {
       return 0;
     }
-
     return Number(get(d, column)) + Number(get(d, column2));
-
   }
 
   /**
@@ -83,17 +65,6 @@ class Spreadsheet extends Component {
   renderCell(d, rowIndex, column) {
     return column.map(({ id, type, ...rest }) => <td
       key={id}>{type === "Sum" ? this.renderSum(d, rest) : this.renderCustom(type, get(d, id), rowIndex, id)}</td>);
-  }
-
-  addColumn(values) {
-    const { data, column } = this.state;
-    const id               = guid();
-    const newColumn        = Object.assign({}, { id }, values);
-    const newData          = map(data, o => set(o, id, 0));
-    this.setState({
-      column: concat(column, [newColumn]),
-      data: newData
-    });
   }
 
   openModal() {
