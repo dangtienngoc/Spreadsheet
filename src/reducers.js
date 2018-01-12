@@ -1,6 +1,7 @@
-import { ADD_COLUMN, ADD_ROW } from './constains';
+import { ADD_COLUMN, ADD_ROW, CHANGE_CELL_DATA } from './constains';
 import concat from "lodash/concat";
 import forEach from "lodash/forEach";
+import map from "lodash/map";
 
 const initState = {
   column: [
@@ -35,6 +36,17 @@ const rootReducer = (state = initState, action) => {
     return {
       data,
       column: concat(column, [action.payload]),
+    };
+  case CHANGE_CELL_DATA:
+    const { rowIndex, key, value } = action.payload;
+    return {
+      column,
+      data: map(data, (d, i) => {
+        if (i === rowIndex) {
+          return Object.assign({}, d, { [key]: value });
+        }
+        return d;
+      }),
     };
   default:
     return state

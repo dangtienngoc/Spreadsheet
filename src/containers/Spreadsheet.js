@@ -9,7 +9,7 @@ import get from 'lodash/get';
 import types from '../components/index';
 import Modal from "../components/Modal";
 
-import { addColumn, addRow } from "../actions";
+import { addColumn, addRow, setData } from "../actions";
 
 import '../Spreadsheet.css';
 
@@ -18,20 +18,10 @@ class Spreadsheet extends Component {
   constructor(props) {
     super(props);
     this.state      = {
-      data: this.props.data,
-      column: this.props.column,
       modal: false,
     };
-    this.setValue   = this.setValue.bind(this);
     this.renderCell = this.renderCell.bind(this);
     this.openModal = this.openModal.bind(this);
-  }
-
-  setValue(rowIndex, key, value) {
-    const data = set(this.state.data, `[${rowIndex}.${key}]`, value);
-    this.setState({
-      data,
-    });
   }
 
   /**
@@ -44,7 +34,7 @@ class Spreadsheet extends Component {
    */
   renderCustom(type, value, rowIndex, key) {
     const CustomInput = types[type];
-    return <CustomInput value={value} onChange={(v) => this.setValue(rowIndex, key, v)}/>
+    return <CustomInput value={value} onChange={(v) => this.props.setData(rowIndex, key, v)}/>
   }
 
   renderSum(d, rest) {
@@ -113,6 +103,7 @@ const mapStateToProps = ( {column, data} ) => ({
 const mapDispatchToProps = (dispatch) => ({
   addRow: () => dispatch(addRow()),
   addColumn: (values) => dispatch(addColumn(values)),
+  setData: (rowIndex, key, value) => dispatch(setData(rowIndex, key, value)),
 });
 
 export default connect(

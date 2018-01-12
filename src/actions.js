@@ -1,4 +1,4 @@
-import { ADD_COLUMN, ADD_ROW } from './constains';
+import { ADD_COLUMN, ADD_ROW, CHANGE_CELL_DATA } from './constains';
 import { guid } from './helper';
 
 export function addRow() {
@@ -13,5 +13,14 @@ export function addColumn(values) {
   return {
     type: ADD_COLUMN,
     payload: column,
+  }
+}
+
+export function setData(rowIndex, key, value) {
+  return {
+    type: CHANGE_CELL_DATA,
+    payload: {
+      rowIndex, key, value
+    }
   }
 }
