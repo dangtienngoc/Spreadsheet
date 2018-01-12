@@ -1,24 +1,29 @@
 body {
-  position: relative; }
+  position: relative;
+}
 
 .container {
   width: 1000px;
   margin: auto;
-  font-size: 14px; }
+  font-size: 14px;
+}
 
 tr > th {
   background-color: #222;
   color: #fff;
-  padding: 10px; }
+  padding: 10px;
+}
 
 tr > td {
   padding: 10px;
-  border-bottom: 1px solid #e8e8e8; }
+  border-bottom: 1px solid #e8e8e8;
+}
 
 .tbody input, .tbody select {
   display: block;
   width: 100%;
-  height: 40px; }
+  height: 40px;
+}
 
 .btn {
   background-color: #222;
@@ -26,16 +31,22 @@ tr > td {
   min-width: 130px;
   color: #fff;
   height: 38px;
-  font-size: 14px; }
+  font-size: 14px;
+}
 
 .table {
-  position: relative; }
-  .table .add-row {
-    float: left; }
-  .table .add-column {
+  position: relative;
+
+  .add-row {
+    float: left;
+  }
+
+  .add-column {
     position: absolute;
     left: 100%;
-    top: 0; }
+    top: 0;
+  }
+}
 
 .modal {
   position: absolute;
@@ -47,13 +58,15 @@ tr > td {
   right: 0;
   top: 20px;
   margin: auto;
-  padding: 20px; }
-  .modal input, .modal select {
+  padding: 20px;
+  input, select {
     margin-bottom: 20px;
     width: 100%;
     height: 38px;
-    display: block; }
-  .modal .x {
-    margin-bottom: 20px; }
+    display: block;
+  }
 
-/*# sourceMappingURL=Spreadsheet.css.map */
+  .x {
+    margin-bottom: 20px;
+  }
+}
